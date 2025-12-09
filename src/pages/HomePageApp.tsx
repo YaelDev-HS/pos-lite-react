@@ -1,7 +1,7 @@
 export default function HomePageApp() {
     return (
         <>
-            <h1>Home</h1>
+            <a className="text-blue-600 underline my-12 font-medium text-2xl" href="/login">Authentication page</a>
         </>
     )
 }
