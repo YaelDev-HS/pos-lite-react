@@ -1,3 +1,4 @@
+import CreateProductApp from "@/products/components/CreateproductApp";
 import { ProductsListApp } from "@/products/components/ProductsListApp";
 import type { Product } from "@/products/interfaces/product.interface";
 import { useEffect, useState } from "react";
@@ -32,7 +33,10 @@ export default function HomePageApp() {
 
     return (
         <>
-            <h1 className="text-center text-3xl font-medium text-blue-600 my-12">Agrega productos a tu inventario</h1>
+            <div className=" border-b border-gray-300 mb-4 pb-2">
+                <h1 className="text-center text-3xl font-medium text-blue-600 my-12">Agrega productos a tu inventario</h1>
+                <CreateProductApp />
+            </div>
 
             {
                 products ? (
