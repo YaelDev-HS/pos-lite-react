@@ -10,16 +10,25 @@ export default function HomePageApp() {
     const [products, setProducts] = useState<Product[] | undefined>(undefined);
 
     useEffect(() => {
-        // Simulando una llamada a la API
-
         setTimeout(() => {
             setProducts([
                 { id: 1, name: "Product 1", price: 10, stock: 10 },
                 { id: 2, name: "Product 2", price: 20, stock: 20 },
                 { id: 3, name: "Product 3", price: 30, stock: 30 },
             ]);
-        }, 2000);
+        }, 500);
     }, []);
+
+    function handleDelete(id: number): void {
+        if (!products) return;
+
+        const productsFilter = products.filter(product => product.id !== id);
+        setProducts(productsFilter);
+    }
+
+    function handleEdit(id: number): void {
+        console.log("Editando producto ", id);
+    }
 
     return (
         <>
@@ -27,7 +36,11 @@ export default function HomePageApp() {
 
             {
                 products ? (
-                    <ProductsListApp products={products} />
+                    <ProductsListApp
+                        products={products}
+                        handleDelete={handleDelete}
+                        handleEdit={handleEdit}
+                    />
                 ) : (
                     <p className="text-center text-xl font-medium text-green-600">Cargando inventario...</p>
                 )
