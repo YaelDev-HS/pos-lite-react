@@ -32,6 +32,7 @@ export default function LoginPageApp() {
                     <div className="flex flex-col gap-1">
                         <Label htmlFor="user" className="text-gray-600">Usuario</Label>
                         <Input value={username} type="text" id="user" placeholder="Usuario" onChange={(e) => setUsername(e.target.value)} />
+                        {ValidationError("Ingresa un usuario correcto")}
                     </div>
 
                     <div className="flex flex-col gap-1">
@@ -39,6 +40,8 @@ export default function LoginPageApp() {
                         <Input value={password} id="password" type="password" placeholder="Contraseña" onChange={e => setPassword(e.target.value)} />
                     </div>
                 </div>
+
+                {ValidationError("Ocurrio un error inesperado, intenta de nuevo mas tarde.")}
 
                 <div className="flex justify-center">
                     <Button disabled={!isValidForm()} className="bg-blue-600 text-white hover:opacity-80 transition-all duration-200">Iniciar sesion</Button>
@@ -48,3 +51,10 @@ export default function LoginPageApp() {
     )
 }
 
+export function ValidationError(message: string) {
+    return (
+        <>
+            <div className="bg-red-500 text-center text-sm text-white rounded-md px-2 py-1 w-full my-1">{message}</div>
+        </>
+    )
+}
