@@ -31,11 +31,19 @@ export default function HomePageApp() {
         console.log("Editando producto ", id);
     }
 
+    function createProduct(product: Product): void {
+        console.log({ product });
+        if (!products) return;
+
+        const newProducts = [product, ...products];
+        setProducts(newProducts);
+    }
+
     return (
         <>
             <div className=" border-b border-gray-300 mb-4 pb-2">
                 <h1 className="text-center text-3xl font-medium text-blue-600 my-12">Agrega productos a tu inventario</h1>
-                <CreateProductApp />
+                <CreateProductApp createProduct={createProduct} />
             </div>
 
             {

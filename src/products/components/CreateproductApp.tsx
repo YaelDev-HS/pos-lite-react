@@ -3,16 +3,27 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import { FormProvider, useForm } from "react-hook-form";
+import type { Product } from "../interfaces/product.interface";
 
 
 
-export default function CreateProductApp() {
-    const methods = useForm();
+interface Props {
+    createProduct: (product: Product) => void;
+}
+
+
+export default function CreateProductApp({ createProduct }: Props) {
+    const methods = useForm<Product>();
 
     const onSubmit = methods.handleSubmit(data => {
-        if (!methods.formState.isValid) return;
-        console.log(data);
+        data.id = Date.now();
+        createProduct(data);
+        resetForm();
     })
+
+    function resetForm() {
+        methods.reset();
+    }
 
     return (
         <>
@@ -23,7 +34,7 @@ export default function CreateProductApp() {
                 <form
                     noValidate
                     className="flex flex-col gap-4 max-w-lg mx-auto px-2 py-4 bg-white shadow-md rounded-sm my-4"
-                    onSubmit={e => e.preventDefault()}
+                    onSubmit={onSubmit}
                 >
                     <div>
                         <Label className="text-sm px-2 text-gray-600" htmlFor="name">Nombre del producto</Label>
@@ -42,19 +53,36 @@ export default function CreateProductApp() {
 
                     <div>
                         <Label className="text-sm px-2 text-gray-600" htmlFor="stock">En stock</Label>
-                        <Input type="number" placeholder="En stock" id="stock" />
+                        <Input
+                            {...methods.register("stock", {
+                                required: "Este campo es obligatorio",
+                                min: { value: 0, message: "El stock debe ser mayor a 0" },
+                            })}
+                            type="number"
+                            placeholder="En stock" id="stock"
+                        />
+                        <FieldError error={methods.formState.errors.stock?.message?.toString()} />
                     </div>
 
                     <div>
                         <Label className="text-sm px-2 text-gray-600" htmlFor="price">Precio del producto</Label>
                         <div className="flex gap-1 items-center">
                             <div>$</div>
-                            <Input type="number" placeholder="Precio del producto" id="price" />
+                            <Input
+                                {...methods.register("price", {
+                                    required: "Este campo es obligatorio",
+                                    min: { value: 1, message: "El precio debe ser mayor a 1" },
+                                })}
+                                type="number"
+                                placeholder="Precio del producto"
+                                id="price"
+                            />
                         </div>
+                        <FieldError error={methods.formState.errors.price?.message?.toString()} />
                     </div>
 
                     <div className="flex justify-center">
-                        <Button onClick={onSubmit}>Agregar</Button>
+                        <Button type="submit">Agregar</Button>
                     </div>
                 </form>
             </FormProvider>
